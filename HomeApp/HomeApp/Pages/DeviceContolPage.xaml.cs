@@ -48,6 +48,16 @@ namespace HomeApp.Pages
             stackLayout.Children.Add(timePickerText);
             stackLayout.Children.Add(timePicker);
 
+            // Создаем меню выбора в виде выпадающего списка с текстовым заголовком
+            var pickerText = new Label { Text = "Напряжение сети, В", Margin = new Thickness(0, 20, 0, 0) };
+            var picker = new Picker { Title = "Выберите напряжение сети" };
+            // Добавляем значения выпадающего списка для пользовательского выбора
+            picker.Items.Add("220");
+            picker.Items.Add("120");
+            // Добавляем элементы на страницу
+            stackLayout.Children.Add(pickerText);
+            stackLayout.Children.Add(picker);
+
             stackLayout.Children.Add(new Button { Text = "Сохранить", BackgroundColor = Color.Silver, Margin = new Thickness(0, 5, 0, 0) });
 
             // Регистрируем обработчик события выбора даты
