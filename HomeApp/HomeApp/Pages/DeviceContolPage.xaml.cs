@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,10 +37,30 @@ namespace HomeApp.Pages
             stackLayout.Children.Add(new Entry { BackgroundColor = Color.AliceBlue, Text = "Холодильник" });
             stackLayout.Children.Add(datePickerText);
             stackLayout.Children.Add(datePicker);
+
+            // Виджет выбора времени.
+            var timePickerText = new Label { Text = "Время запуска ", Margin = new Thickness(0, 20, 0, 0) };
+            var timePicker = new TimePicker
+            {
+                Time = new TimeSpan(13, 0, 0)
+            };
+
+            stackLayout.Children.Add(timePickerText);
+            stackLayout.Children.Add(timePicker);
+
             stackLayout.Children.Add(new Button { Text = "Сохранить", BackgroundColor = Color.Silver, Margin = new Thickness(0, 5, 0, 0) });
 
             // Регистрируем обработчик события выбора даты
             datePicker.DateSelected += (sender, e) => DateSelectedHandler(sender, e, datePickerText);
+            // Регистрируем обработчик события выбора времени
+            timePicker.PropertyChanged += (sender, e) => TimeChangedHandler(sender, e, timePickerText, timePicker);
+        }
+
+        public void TimeChangedHandler(object sender, PropertyChangedEventArgs e, Label timePickerText, TimePicker timePicker)
+        {
+            // Обновляем текст сообщения, когда появляется новое значение времени
+            if (e.PropertyName == "Time")
+                timePickerText.Text = "В " + timePicker.Time;
         }
 
         public void DateSelectedHandler(object sender, DateChangedEventArgs e, Label datePickerText)
