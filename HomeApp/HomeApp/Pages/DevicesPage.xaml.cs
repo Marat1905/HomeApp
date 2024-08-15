@@ -76,10 +76,22 @@ namespace HomeApp.Pages
         /// </summary>
         public async Task ShowImage(object sender, EventArgs e, string imageName)
         {
-            // Если изображение отсутствует - показываем информационное окно
+            // Если изображение отсутствует
             if (String.IsNullOrEmpty(imageName))
             {
-                await DisplayAlert("", "Изображение устройства отсутствует", "OK");
+                //await DisplayAlert("", "Изображение устройства отсутствует", "OK");
+
+                // Создаем новый объект изображения
+                Image img = new Image();
+                // Подключаем удаленный ресурс в качестве источника изображения
+                img.Source = new UriImageSource
+                {
+                    CachingEnabled = false,
+                    Uri = new Uri("https://i.sstatic.net/y9DpT.jpg")
+                };
+
+                // Инициализируем страницу
+                Content = img;
                 return;
             }
 
