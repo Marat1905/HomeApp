@@ -58,26 +58,39 @@ namespace HomeApp.Pages
             stackLayout.Children.Add(pickerText);
             stackLayout.Children.Add(picker);
 
-            // Установим текст текущего значения переключателя Stepper
-            var stepperText = new Label
-            {
-                Text = "Температура: 5.0 °C",
-                HorizontalOptions = LayoutOptions.Center,
-                Margin = new Thickness(0, 30, 0, 0)
-            };
-            // Установим сам переключатель
-            Stepper stepper = new Stepper
+            //// Установим текст текущего значения переключателя Stepper
+            //var stepperText = new Label
+            //{
+            //    Text = "Температура: 5.0 °C",
+            //    HorizontalOptions = LayoutOptions.Center,
+            //    Margin = new Thickness(0, 30, 0, 0)
+            //};
+            //// Установим сам переключатель
+            //Stepper stepper = new Stepper
+            //{
+            //    Minimum = -30,
+            //    Maximum = 30,
+            //    Increment = 1,
+            //    Value = 5,
+            //    HorizontalOptions = LayoutOptions.Center,
+            //    VerticalOptions = LayoutOptions.CenterAndExpand
+            //};
+            //// Добавим в разметку
+            //stackLayout.Children.Add(stepperText);
+            //stackLayout.Children.Add(stepper);
+
+            Slider slider = new Slider
             {
                 Minimum = -30,
                 Maximum = 30,
-                Increment = 1,
-                Value = 5,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.CenterAndExpand
+                Value = 5.0,
+                ThumbColor = Color.DodgerBlue,
+                MinimumTrackColor = Color.DodgerBlue,
+                MaximumTrackColor = Color.Gray
             };
-            // Добавим в разметку
-            stackLayout.Children.Add(stepperText);
-            stackLayout.Children.Add(stepper);
+            var sliderText = new Label { Text = $"Температура: {slider.Value} °C", HorizontalOptions = LayoutOptions.Center, Margin = new Thickness(0, 30, 0, 0) };
+            stackLayout.Children.Add(sliderText);
+            stackLayout.Children.Add(slider);
 
             stackLayout.Children.Add(new Button { Text = "Сохранить", BackgroundColor = Color.Silver, Margin = new Thickness(0, 5, 0, 0) });
 
@@ -87,7 +100,8 @@ namespace HomeApp.Pages
             timePicker.PropertyChanged += (sender, e) => TimeChangedHandler(sender, e, timePickerText, timePicker);
 
             // Регистрируем обработчик события выбора температуры
-            stepper.ValueChanged += (sender, e) => TempChangedHandler(sender, e, stepperText);
+            //stepper.ValueChanged += (sender, e) => TempChangedHandler(sender, e, stepperText);
+            slider.ValueChanged += (sender, e) => TempChangedHandler(sender, e, sliderText);
         }
 
         public void TimeChangedHandler(object sender, PropertyChangedEventArgs e, Label timePickerText, TimePicker timePicker)
