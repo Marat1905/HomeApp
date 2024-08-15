@@ -58,12 +58,36 @@ namespace HomeApp.Pages
             stackLayout.Children.Add(pickerText);
             stackLayout.Children.Add(picker);
 
+            // Установим текст текущего значения переключателя Stepper
+            var stepperText = new Label
+            {
+                Text = "Температура: 5.0 °C",
+                HorizontalOptions = LayoutOptions.Center,
+                Margin = new Thickness(0, 30, 0, 0)
+            };
+            // Установим сам переключатель
+            Stepper stepper = new Stepper
+            {
+                Minimum = -30,
+                Maximum = 30,
+                Increment = 1,
+                Value = 5,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+            // Добавим в разметку
+            stackLayout.Children.Add(stepperText);
+            stackLayout.Children.Add(stepper);
+
             stackLayout.Children.Add(new Button { Text = "Сохранить", BackgroundColor = Color.Silver, Margin = new Thickness(0, 5, 0, 0) });
 
             // Регистрируем обработчик события выбора даты
             datePicker.DateSelected += (sender, e) => DateSelectedHandler(sender, e, datePickerText);
             // Регистрируем обработчик события выбора времени
             timePicker.PropertyChanged += (sender, e) => TimeChangedHandler(sender, e, timePickerText, timePicker);
+
+            // Регистрируем обработчик события выбора температуры
+            stepper.ValueChanged += (sender, e) => TempChangedHandler(sender, e, stepperText);
         }
 
         public void TimeChangedHandler(object sender, PropertyChangedEventArgs e, Label timePickerText, TimePicker timePicker)
@@ -77,6 +101,14 @@ namespace HomeApp.Pages
         {
             // При срабатывании выбора - будет меняться информационное сообщение.
             datePickerText.Text = "Запустится " + e.NewDate.ToString("dd/MM/yyyy");
+        }
+
+        /// <summary>
+        /// Обработчик изменения температуры
+        /// </summary>
+        private void TempChangedHandler(object sender, ValueChangedEventArgs e, Label header)
+        {
+            header.Text = String.Format("Температура: {0:F1}°C", e.NewValue);
         }
 
     }
