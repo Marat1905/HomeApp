@@ -4,12 +4,6 @@
              xmlns:local="clr-namespace:HomeApp"
              x:Class="HomeApp.Pages.LoginPage">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Color x:Key="errorColor">#FF0000</Color>
-            <x:Double x:Key="errorFont">Small</x:Double>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center" x:Name="stackLayout">
         <Label Text="HomeApp - Ваш умный дом" FontSize="Title" Padding="30,10,30,10" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
         <Button x:Name="loginButton" Text="{x:Static local:Pages.LoginPage.BUTTON_TEXT}" Clicked="Login_Click" CornerRadius="{local:ButtonViewExtension ButtonStyle=SemiRound}" />
