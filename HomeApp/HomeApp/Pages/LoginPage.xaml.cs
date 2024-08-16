@@ -44,14 +44,8 @@ namespace HomeApp.Pages
 
                 var infoMessage = (Label)stackLayout.Children.Last();
                 infoMessage.Text = "Слишком много попыток! Попробуйте позже";
-
-                // Новый цвет для информационных сообщений
-                var warningColor = Color.FromHex("#ffa500");
-                // Добавлем в словарь.
-                Resources.Add("warningColor", warningColor);
-
-                // Используем добавленный ресурс
-                infoMessage.TextColor = (Color)Resources["warningColor"];
+                // задаем красный цвет сообщения
+                infoMessage.TextColor = Color.FromRgb(255, 0, 0);
             }
             else
             {
