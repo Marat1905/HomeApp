@@ -14,7 +14,7 @@ namespace HomeApp.Pages
         public
         const string BUTTON_TEXT = "Войти";
         public static int loginCouner = 0;
-        IDeviceDetector detector = DependencyService.Get<IDeviceDetector>();
+       // IDeviceDetector detector = DependencyService.Get<IDeviceDetector>();
 
         public LoginPage()
         {
@@ -23,7 +23,7 @@ namespace HomeApp.Pages
             if (Device.Idiom == TargetIdiom.Desktop)
                 loginButton.CornerRadius = 0;
 
-            runningDevice.Text = detector.GetDevice();
+            //runningDevice.Text = detector.GetDevice();
 
             // Устанавливаем динамический ресурс с помощью специально метода
             infoMessage.SetDynamicResource(Label.TextColorProperty, "errorColor");
