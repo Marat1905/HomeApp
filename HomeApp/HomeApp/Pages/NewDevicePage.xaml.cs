@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -24,8 +25,10 @@ namespace HomeApp.Pages
             {
                 BackgroundColor = Color.AliceBlue,
                 Margin = new Thickness(30, 10),
-                Placeholder = "Название"
+                Placeholder = "Название",
+                Style = (Style)App.Current.Resources["ValidInputStyle"]
             };
+            newDeviceName.TextChanged += (sender, e) => InputTextChanged(sender, e, newDeviceName);
             stackLayout.Children.Add(newDeviceName);
 
             // Создание многострочного поля для описания
@@ -34,8 +37,10 @@ namespace HomeApp.Pages
                 HeightRequest = 200,
                 BackgroundColor = Color.AliceBlue,
                 Margin = new Thickness(30, 10),
-                Placeholder = "Описание"
+                Placeholder = "Описание",
+                Style = (Style)App.Current.Resources["ValidInputStyle"]
             };
+            newDeviceDescription.TextChanged += (sender, e) => InputTextChanged(sender, e, newDeviceDescription);
             stackLayout.Children.Add(newDeviceDescription);
 
             // Создаем заголовок для переключателя
@@ -55,13 +60,20 @@ namespace HomeApp.Pages
             // Регистрируем обработчик события переключения
             switchControl.Toggled += (sender, e) => SwitchHandler(sender, e, switchHeader);
 
+            // Кнопка сохранения с обработчиками
             var addButton = new Button
             {
                 Text = "Добавить",
                 Margin = new Thickness(30, 10),
                 BackgroundColor = Color.Silver,
             };
+
             stackLayout.Children.Add(addButton);
+            addButton.Clicked += (sender, eventArgs) => AddButtonClicked(sender, eventArgs, new View[] {
+                                                                        newDeviceName,
+                                                                        newDeviceDescription,
+                                                                        switchControl
+            });
         }
 
         /// <summary>
@@ -76,6 +88,26 @@ namespace HomeApp.Pages
             }
 
             header.Text = "Использует газ";
+        }
+
+        /// <summary>
+        /// Обработчик-валидатор текстовых полей
+        /// </summary>
+        private void InputTextChanged(object sender, TextChangedEventArgs e, InputView view)
+        {
+            // Регулярное выражение для описания специальных символов
+            Regex rgx = new Regex("[^A-Za-z0-9]");
+            // Не разрешаем использовать специальные символы в названии и описании, если они есть, то проставляем Invalid
+            VisualStateManager.GoToState(view, rgx.IsMatch(view.Text) ? "Invalid" : "Valid");
+        }
+
+        /// <summary>
+        /// Кнопка сохранения деактивирует все контролы
+        /// </summary>
+        private void AddButtonClicked(object sender, EventArgs e, View[] views)
+        {
+            foreach (var view in views)
+                view.IsEnabled = false;
         }
 
     }
