@@ -7,7 +7,7 @@
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center" x:Name="stackLayout">
         <Label Text="HomeApp - Ваш умный дом" FontSize="Title" Padding="30,10,30,10" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
         <Button x:Name="loginButton" Text="{x:Static local:Pages.LoginPage.BUTTON_TEXT}" Clicked="Login_Click" CornerRadius="{local:ButtonViewExtension ButtonStyle=SemiRound}" />
-        <Label x:Name="infoMessage" FontSize="{StaticResource Key=errorFont}" TextColor="{StaticResource Key=errorColor}" Padding="30,10,30,10" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+        <Label x:Name="infoMessage" FontSize="{DynamicResource Key=errorFont}"  TextColor="{DynamicResource Key=errorColor}" Padding="30,10,30,10" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
         <Label x:Name="runningDevice" FontSize="15" Padding="30,10,30,10" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
     </StackLayout>
 
