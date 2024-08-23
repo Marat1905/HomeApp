@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HomeApp.Models
 {
-    class HomeDevice
+    public class HomeDevice
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
