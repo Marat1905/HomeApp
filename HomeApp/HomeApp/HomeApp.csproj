@@ -12,7 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Chainik.png" />
     <None Remove="Images\kettle.jpg" />
+    <None Remove="Images\Multivarka.png" />
+    <None Remove="Images\PosudomoechnayaMashina.png" />
+    <None Remove="Images\StiralnayaMashina.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +25,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\Chainik.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Images\kettle.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Multivarka.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\PosudomoechnayaMashina.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\StiralnayaMashina.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

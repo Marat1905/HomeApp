@@ -1,9 +1,5 @@
 ﻿using HomeApp.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,10 +16,10 @@ namespace HomeApp.Pages
             InitializeComponent();
 
             // Заполняем список устройств
-            Devices.Add(new HomeDevice("Чайник", description: "LG, объем 2л."));
-            Devices.Add(new HomeDevice("Стиральная машина", description: "BOSCH"));
-            Devices.Add(new HomeDevice("Посудомоечная машина", description: "Gorenje"));
-            Devices.Add(new HomeDevice("Мультиварка", description: "Philips"));
+            Devices.Add(new HomeDevice("Чайник", "Chainik.png", description: "LG, объем 2л."));
+            Devices.Add(new HomeDevice("Стиральная машина", "StiralnayaMashina.png", description: "BOSCH"));
+            Devices.Add(new HomeDevice("Посудомоечная машина", "PosudomoechnayaMashina.png", description: "Gorenje"));
+            Devices.Add(new HomeDevice("Мультиварка", "Multivarka.png", description: "Philips"));
 
             BindingContext = this;
         }

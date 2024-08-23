@@ -87,7 +87,12 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Chainik.png" />
+    <AndroidResource Include="Resources\drawable\Multivarka.png" />
+    <AndroidResource Include="Resources\drawable\PosudomoechnayaMashina.png" />
+    <AndroidResource Include="Resources\drawable\StiralnayaMashina.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HomeApp\HomeApp.csproj">
       <Project>{2E8476D6-ADA5-4928-A1C8-A39C603FDD5E}</Project>
