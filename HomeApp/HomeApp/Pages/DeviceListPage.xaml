@@ -7,7 +7,12 @@
         <Label Text="HomeApp - Ваши устройства" HorizontalOptions="Center" FontSize="Large"  Padding="30,10,30,10" StyleId="header" />
         <ListView x:Name="deviceList"
              HasUnevenRows="True"
-             ItemsSource="{Binding Devices}">
+             GroupDisplayBinding="{Binding Name}"
+             ItemsSource="{Binding DeviceGroups}"
+                 IsGroupingEnabled="True"
+                 SeparatorVisibility="Default"
+                 RowHeight="60"
+                 >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
@@ -18,11 +23,8 @@
                    />
                 </DataTemplate>
             </ListView.ItemTemplate>
+
         </ListView>
-        <StackLayout Orientation="Horizontal" Padding="30,10,30,15" HorizontalOptions="StartAndExpand" >
-            <Button Clicked="AddDevice"  Text="Новое устройство" />
-            <Button Clicked="RemoveDevice" Text="Удалить устройство" />
-        </StackLayout>
     </StackLayout>
 
 </ContentPage>
