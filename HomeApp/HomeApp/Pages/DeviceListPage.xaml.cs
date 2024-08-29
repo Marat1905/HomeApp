@@ -25,7 +25,7 @@ namespace HomeApp.Pages
             initialList.Add(new HomeDevice("Чайник", "Chainik.png", "LG, объем 2л.", "Кухня"));
             initialList.Add(new HomeDevice("Стиральная машина", "StiralnayaMashina.png", description: "BOSCH", "Ванная"));
             initialList.Add(new HomeDevice("Посудомоечная машина", "PosudomoechnayaMashina.png", "Gorenje", "Кухня"));
-            initialList.Add(new HomeDevice("Мультиварка", "Multivarka.png", "Philips", "Кухня"));
+            initialList.Add(new HomeDevice("Мультиварка", "Multivarka.png", "Phillips", "Кухня"));
 
             // Сгруппируем по комнатам
             var devicesByRooms = initialList.GroupBy(d => d.Room).Select(g => new Group<string, HomeDevice>(g.Key, g));
@@ -55,6 +55,18 @@ namespace HomeApp.Pages
             var selectedDevice = (HomeDevice)e.SelectedItem;
             // уведомление
             DisplayAlert("Выбор", $"Вы выбрали {selectedDevice.Name}", "OK"); ; ;
+        }
+
+        private async void LogoutButton_Clicked(object sender, EventArgs e)
+        {
+            // Возврат на первую страницу стека навигации (корневую страницу приложения) - экран логина
+            await Navigation.PopAsync();
+        }
+
+        private async void NewDeviceButton_Clicked(object sender, EventArgs e)
+        {
+            // Переход на следующую страницу - страницу нового устройства (и помещение её в стек навигации)
+            await Navigation.PushAsync(new NewDevicePage());
         }
 
         ///// <summary>
