@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,30 @@ using Xamarin.Forms.Xaml;
 
 namespace HomeApp.Pages
 {
-    public partial class NewDevicePage : ContentPage
+    public partial class DevicePage : ContentPage
     {
-        public NewDevicePage()
+        public static string PageName { get; set; }
+        public static string DeviceName { get; set; }
+        public static string DeviceDescription { get; set; }
+
+        public HomeDevice HomeDevice { get; set; }
+
+
+        public DevicePage(string pageName, HomeDevice homeDevice = null)
         {
+            PageName = pageName;
+
+            if (homeDevice != null)
+            {
+                HomeDevice = homeDevice;
+                DeviceName = homeDevice.Name;
+                DeviceDescription = homeDevice.Description;
+            }
+            else
+            {
+                HomeDevice = new HomeDevice();
+            }
+
             InitializeComponent();
             OpenEditor();
         }
@@ -26,7 +47,8 @@ namespace HomeApp.Pages
                 BackgroundColor = Color.AliceBlue,
                 Margin = new Thickness(30, 10),
                 Placeholder = "Название",
-                Style = (Style)App.Current.Resources["ValidInputStyle"]
+                Text = DeviceName,
+                Style = (Style)App.Current.Resources["ValidInputStyle"],
             };
             newDeviceName.TextChanged += (sender, e) => InputTextChanged(sender, e, newDeviceName);
             stackLayout.Children.Add(newDeviceName);
@@ -38,6 +60,7 @@ namespace HomeApp.Pages
                 BackgroundColor = Color.AliceBlue,
                 Margin = new Thickness(30, 10),
                 Placeholder = "Описание",
+                Text = DeviceDescription,
                 Style = (Style)App.Current.Resources["ValidInputStyle"]
             };
             newDeviceDescription.TextChanged += (sender, e) => InputTextChanged(sender, e, newDeviceDescription);
@@ -63,17 +86,25 @@ namespace HomeApp.Pages
             // Кнопка сохранения с обработчиками
             var addButton = new Button
             {
-                Text = "Добавить",
+                Text = "Сохранить",
                 Margin = new Thickness(30, 10),
                 BackgroundColor = Color.Silver,
             };
+            addButton.Clicked += (sender, eventArgs) => SaveButtonClicked(sender, eventArgs, new View[] { newDeviceName, newDeviceDescription, switchControl });
 
             stackLayout.Children.Add(addButton);
-            addButton.Clicked += (sender, eventArgs) => AddButtonClicked(sender, eventArgs, new View[] {
-                                                                        newDeviceName,
-                                                                        newDeviceDescription,
-                                                                        switchControl
-            });
+        }
+
+        /// <summary>
+        /// Кнопка сохранения деактивирует все контролы
+        /// </summary>
+        private void SaveButtonClicked(object sender, EventArgs e, View[] views)
+        {
+            foreach (var view in views)
+                view.IsEnabled = false;
+
+            HomeDevice.Name = DeviceName;
+            HomeDevice.Description = DeviceDescription;
         }
 
         /// <summary>
@@ -90,25 +121,17 @@ namespace HomeApp.Pages
             header.Text = "Использует газ";
         }
 
-        /// <summary>
-        /// Обработчик-валидатор текстовых полей
-        /// </summary>
+        ///
         private void InputTextChanged(object sender, TextChangedEventArgs e, InputView view)
         {
-            // Регулярное выражение для описания специальных символов
-            Regex rgx = new Regex("[^A-Za-z0-9]");
-            // Не разрешаем использовать специальные символы в названии и описании, если они есть, то проставляем Invalid
-            VisualStateManager.GoToState(view, rgx.IsMatch(view.Text) ? "Invalid" : "Valid");
+            if (view is Entry)
+            {
+                DeviceName = view.Text;
+            }
+            else
+            {
+                DeviceDescription = view.Text;
+            }
         }
-
-        /// <summary>
-        /// Кнопка сохранения деактивирует все контролы
-        /// </summary>
-        private void AddButtonClicked(object sender, EventArgs e, View[] views)
-        {
-            foreach (var view in views)
-                view.IsEnabled = false;
-        }
-
     }
 }

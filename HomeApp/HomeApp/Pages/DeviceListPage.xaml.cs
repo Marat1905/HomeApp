@@ -16,6 +16,11 @@ namespace HomeApp.Pages
         /// </summary>
         public ObservableCollection<Group<string, HomeDevice>> DeviceGroups { get; set; } = new ObservableCollection<Group<string, HomeDevice>>();
 
+        /// <summary>
+        /// Ссылка на выбранный объект
+        /// </summary>
+        HomeDevice SelectedDevice;
+
         public DeviceListPage()
         {
             InitializeComponent();
@@ -52,9 +57,7 @@ namespace HomeApp.Pages
         private void deviceList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             // распаковка модели из объекта
-            var selectedDevice = (HomeDevice)e.SelectedItem;
-            // уведомление
-            DisplayAlert("Выбор", $"Вы выбрали {selectedDevice.Name}", "OK"); ; ;
+            SelectedDevice = (HomeDevice)e.SelectedItem;
         }
 
         private async void LogoutButton_Clicked(object sender, EventArgs e)
@@ -66,7 +69,25 @@ namespace HomeApp.Pages
         private async void NewDeviceButton_Clicked(object sender, EventArgs e)
         {
             // Переход на следующую страницу - страницу нового устройства (и помещение её в стек навигации)
-            await Navigation.PushAsync(new NewDevicePage());
+            await Navigation.PushAsync(new DevicePage("Добавить новое устройство"));
+        }
+
+        private async void EditDeviceButton_Clicked(object sender, EventArgs e)
+        {
+            // проверяем, выбрал ли пользователь устройство из списка
+            if (SelectedDevice == null)
+            {
+                await DisplayAlert(null, $"Пожалуйста, выберите устройство!", "OK");
+                return;
+            }
+
+            // Переход на следующую страницу - страницу нового устройства (и помещение её в стек навигации)
+            await Navigation.PushAsync(new DevicePage("Изменить устройство", SelectedDevice));
+        }
+
+        private async void UserProfileButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ProfilePage());
         }
 
         ///// <summary>
