@@ -83,6 +83,16 @@ namespace HomeApp.Pages
             // Регистрируем обработчик события переключения
             switchControl.Toggled += (sender, e) => SwitchHandler(sender, e, switchHeader);
 
+            var manualButton = new Button
+            {
+                Text = "Инструкция по эксплуатации",
+                Margin = new Thickness(30, 10),
+                BackgroundColor = Color.Silver,
+            };
+            manualButton.Clicked += async (sender, eventArgs) => await ManualButton_Clicked(sender, eventArgs);
+
+            stackLayout.Children.Add(manualButton);
+
             // Кнопка сохранения с обработчиками
             var addButton = new Button
             {
@@ -93,6 +103,11 @@ namespace HomeApp.Pages
             addButton.Clicked += (sender, eventArgs) => SaveButtonClicked(sender, eventArgs, new View[] { newDeviceName, newDeviceDescription, switchControl });
 
             stackLayout.Children.Add(addButton);
+        }
+
+        private async Task ManualButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new DeviceManualPage(HomeDevice.Name, HomeDevice.Id));
         }
 
         /// <summary>
