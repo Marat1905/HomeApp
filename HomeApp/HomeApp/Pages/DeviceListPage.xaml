@@ -28,10 +28,11 @@
             </ListView.ItemTemplate>
         </ListView>
         <Grid ColumnDefinitions="Auto" RowDefinitions="45" Margin="10, 15" >
-            <Button Text="👤Профиль" Clicked="UserProfileButton_Clicked"  Grid.Column="0" HorizontalOptions="FillAndExpand"></Button>
-            <Button Text="Новое" Clicked="NewDeviceButton_Clicked" Grid.Column="1" HorizontalOptions="FillAndExpand"></Button>
-            <Button Text="Изм." Clicked="EditDeviceButton_Clicked" Grid.Column="2" HorizontalOptions="FillAndExpand"></Button>
-            <Button Text="Выход" Clicked="LogoutButton_Clicked" Grid.Column="3" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="👤Profile" Clicked="UserProfileButton_Clicked"  Grid.Column="0" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="New" Clicked="NewDeviceButton_Clicked" Grid.Column="1" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="✏️" Clicked="EditDeviceButton_Clicked" Grid.Column="2" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="❌" Clicked="DeleteButton_Clicked"  Grid.Column="3" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Exit" Clicked="LogoutButton_Clicked" Grid.Column="4" HorizontalOptions="FillAndExpand"></Button>
         </Grid>
     </StackLayout>
 
