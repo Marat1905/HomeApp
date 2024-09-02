@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HomeApp.Clients;
 using HomeApp.Data;
 using HomeApp.Pages;
 using System;
@@ -15,6 +16,11 @@ namespace HomeApp
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 $"homedevices.db")
             );
+
+        /// <summary>
+        /// Инициализация Api-клиента для использования во всех частях приложения
+        /// </summary>
+        public static HomeApiClient ApiClient = new HomeApiClient("http://10.0.2.2:5000");
 
         public static IMapper Mapper { get; set; }
 
@@ -35,8 +41,13 @@ namespace HomeApp
         {
             var config = new MapperConfiguration(cfg =>
             {
+                // Маппинг сущностей базы данных во внутренние сущности бизнес-логики
                 cfg.CreateMap<Data.Tables.HomeDevice, Models.HomeDevice>();
                 cfg.CreateMap<Models.HomeDevice, Data.Tables.HomeDevice>();
+
+                // Маппинг внешнего контракта API во внутреннюю модель
+                cfg.CreateMap<HomeApi.Contracts.Home.InfoResponse, Models.HouseInfo>();
+                cfg.CreateMap<HomeApi.Contracts.Home.AddressInfo, Models.Address>();
             });
 
             return config.CreateMapper();

@@ -1,8 +1,4 @@
 ﻿using HomeApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -13,34 +9,21 @@ namespace HomeApp.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
-        /// <summary>
-        /// Модель пользовательских данных
-        /// </summary>
-        public UserInfo UserInfo { get; set; }
-
         public ProfilePage()
         {
             InitializeComponent();
         }
 
-
         /// <summary>
         /// Вызывается до того, как элемент становится видимым
         /// </summary>
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
-            // Проверяем, есть ли в словаре значение
-            if (App.Current.Properties.TryGetValue("CurrentUser", out object user))
+            // Проверяем доступность сетевого соединения
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                UserInfo = user as UserInfo;
-                loginEntry.Text = UserInfo.Name;
-                emailEntry.Text = UserInfo.Email;
-            }
-            else
-            {
-                // Добавляем, если нет
-                UserInfo = new UserInfo();
-                App.Current.Properties.Add("CurrentUser", UserInfo);
+                // При наличии - запрашиваем данные с сервера
+                await GetHouseInfo();
             }
 
             // Получим значения ползунков из Preferences.
@@ -52,42 +35,11 @@ namespace HomeApp.Pages
             base.OnAppearing();
         }
 
-        ///// <summary>
-        ///// Вызывается до того, как элемент становится видимым
-        ///// </summary>
-        //protected override void OnAppearing()
-        //{
-        //    // Проверяем, есть ли в словаре значение
-        //    if (App.Current.Properties.TryGetValue("CurrentUser", out object user))
-        //    {
-        //        UserInfo = user as UserInfo;
-        //        loginEntry.Text = UserInfo.Name;
-        //        emailEntry.Text = UserInfo.Email;
-        //    }
-        //    else
-        //    {
-        //        // Добавляем, если нет
-        //        UserInfo = new UserInfo();
-        //        App.Current.Properties.Add("CurrentUser", UserInfo);
-        //    }
-
-        //    base.OnAppearing();
-        //}
-
-        private void NotifyUser(object sender, ToggledEventArgs e)
-        {
-            if (gasSwitch.On && climateSwitch.On && electroSwitch.On)
-                DisplayAlert("Внимание!", "Пользователь получит полный доступ ко всем системам", "OK");
-        }
-
         /// <summary>
         ///  Сохраним информацию о пользователе
         /// </summary>
         private async void saveButton_Clicked(object sender, System.EventArgs e)
         {
-            UserInfo.Name = loginEntry.Text;
-            UserInfo.Email = emailEntry.Text;
-
             // Сохраним значения ползунков в настройки.
             Preferences.Set("gasState", gasSwitch.On);
             Preferences.Set("climateState", climateSwitch.On);
@@ -97,15 +49,22 @@ namespace HomeApp.Pages
             await Navigation.PopAsync();
         }
 
-        ///// <summary>
-        /////  Сохраним информацию о пользователе
-        ///// </summary>
-        //private async void saveButton_Clicked(object sender, System.EventArgs e)
-        //{
-        //    UserInfo.Name = loginEntry.Text;
-        //    UserInfo.Email = emailEntry.Text;
+        /// <summary>
+        /// Загружает информацию о строении
+        /// </summary>
+        private async Task GetHouseInfo()
+        {
+            // Получим информацию с помощью клиента
+            var inforResponse = await App.ApiClient.GetInfo();
+            // Маппинг внешней модели данных во внутреннюю   
+            var houseInfo = App.Mapper.Map<HouseInfo>(inforResponse);
 
-        //    await Navigation.PopAsync();
-        //}
+            // Проставляем нужные значения, полученные с сервера
+            addressEntry.Text = $" {houseInfo.AddressInfo.Street} {houseInfo.AddressInfo.House}/{houseInfo.AddressInfo.Building}";
+            telephoneEntry.Text = $" {houseInfo.Telephone}";
+            areaEntry.Text = $" {houseInfo.Area} кв. м.";
+            voltageEntry.Text = $" {houseInfo.CurrentVolts} в";
+            heatingEntry.Text = $" {houseInfo.Heating}";
+        }
     }
 }
